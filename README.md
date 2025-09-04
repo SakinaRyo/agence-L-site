@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Guide pour visualiser le site Agence L sur ton ordinateur
 
-## Getting Started
+## Étape 1 : Installer Node.js (si pas déjà fait)
 
-First, run the development server:
+1. Va sur https://nodejs.org/
+2. Clique sur le gros bouton vert "LTS" (version stable)
+3. Télécharge et installe (suivre les étapes, tout laisser par défaut)
+4. Redémarre ton ordinateur
+
+## Étape 2 : Télécharger le projet depuis GitHub
+
+### Option A : Télécharger le ZIP (plus simple)
+
+1. Va sur le lien GitHub que je t'ai envoyé
+2. Clique sur le bouton vert **"Code"**
+3. Clique sur **"Download ZIP"**
+4. Décompresse le dossier sur ton bureau
+5. Renomme le dossier en `agence-l` (plus simple)
+
+### Option B : Cloner avec Git
+
+```bash
+git clone [URL_DU_REPO]
+cd agence-l-detective
+```
+
+## Étape 3 : Ouvrir le terminal dans le dossier
+
+### Sur Windows :
+
+- Ouvre le dossier du projet
+- Fais un clic droit dans le dossier (zone vide)
+- Clique sur **"Ouvrir dans le terminal"** ou **"Git Bash here"**
+
+### Sur Mac :
+
+- Ouvre le Finder
+- Va dans le dossier du projet
+- Clic droit sur le dossier → **"Nouveau terminal au dossier"**
+
+## Étape 4 : Installer et lancer le site
+
+Dans le terminal qui s'est ouvert, tape ces commandes (une par une) :
+
+**Première commande :**
+
+```bash
+npm install
+```
+
+⏱️ Attendre que ça finisse (1-3 minutes, tu verras plein de texte défiler)
+
+**Deuxième commande :**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+✅ Tu verras apparaître : `✓ Ready in XXs` et `- Local: http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Étape 5 : Voir ton site !
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Ouvre ton navigateur préféré (Chrome, Firefox, Safari...)
+2. Dans la barre d'adresse, tape : **localhost:3000**
+3. Appuie sur Entrée
 
-## Learn More
+🎉 **TON SITE EST VISIBLE !** 🎉
 
-To learn more about Next.js, take a look at the following resources:
+Tu devrais voir ton magnifique site avec le logo doré qui brille !
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Commandes utiles
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Pour arrêter le site :**
 
-## Deploy on Vercel
+- Dans le terminal : **Ctrl + C** (Mac : **Cmd + C**)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Pour relancer le site plus tard :**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run dev
+```
+
+(Pas besoin de refaire `npm install`)
+
+**Pour voir sur ton téléphone :**
+
+1. Assure-toi que ton téléphone est sur le même WiFi
+2. Sur ton ordi, trouve ton adresse IP locale
+3. Sur ton téléphone, tape : `[TON_IP]:3000`
+
+## Problèmes fréquents et solutions
+
+| Problème                             | Solution                                    |
+| ------------------------------------ | ------------------------------------------- |
+| "npm n'est pas reconnu"              | Node.js n'est pas installé → retour étape 1 |
+| "EADDRINUSE: address already in use" | Ferme tous les terminaux et réessaye        |
+| Page blanche                         | Vide le cache : **Ctrl + F5**               |
+| "Module not found"                   | Refais `npm install`                        |
+| Rien ne se passe                     | Vérifie que tu es dans le bon dossier       |
+
+## Modifier le site
+
+- **Textes** : Les fichiers sont dans `/components`
+- **Couleurs** : Dans `tailwind.config.ts`
+- **Logo** : Remplace `/public/logo.png`
+- **Favicon** : Remplace `/public/favicon.ico`
+
+Chaque modification sera visible instantanément après sauvegarde !
+
+---
+
+💡 **Astuce :** Garde le terminal ouvert pendant que tu regardes le site
+
+📞 **Besoin d'aide ?** N'hésite pas à me demander !
+
+_Bon visionnage de ton super site !_ ✨

@@ -1,103 +1,118 @@
-import Image from "next/image";
+// app/page.tsx
+import { Metadata } from 'next'
+import HeroSection from '@/components/HeroSection'
+import ReassuranceSection from '@/components/ReassuranceSection'
+import ServicesSection from '@/components/ServicesSection'
+import ApproachSection from '@/components/ApproachSection'
+import ZoneSection from '@/components/ZoneSection'
+import CTASection from '@/components/CTASection'
+
+export const metadata: Metadata = {
+  title: 'Détective Privé Montpellier - Agence L | Enquêtes & Généalogie',
+  description: 'Agence de détective privé à Montpellier. Enquêtes privées, filatures, généalogie, recherches. Disponible 24h/7j en Occitanie. Première consultation gratuite.',
+  keywords: 'détective privé Montpellier, enquêteur privé, agence détective, généalogie Montpellier, filature, enquête privée, recherche personne',
+  openGraph: {
+    title: 'Agence L - Détective Privé & Généalogie à Montpellier',
+    description: 'Votre détective privé de confiance à Montpellier. Enquêtes discrètes et professionnelles.',
+    url: 'https://www.lrdetectives.com',
+    siteName: 'Agence L Détective',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Agence L - Détective Privé Montpellier',
+      }
+    ],
+    locale: 'fr_FR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Agence L - Détective Privé Montpellier',
+    description: 'Enquêtes privées et généalogie professionnelle',
+    images: ['/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: 'https://www.lrdetectives.com',
+  },
+}
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'PrivateInvestigator',
+    name: 'Agence L - Détective Privé & Généalogie',
+    image: 'https://www.lrdetectives.com/logo.jpg',
+    '@id': 'https://www.lrdetectives.com',
+    url: 'https://www.lrdetectives.com',
+    telephone: '+33650012747',
+    email: 'ldetective7@proton.me',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '48 rue Claude Balbastre',
+      addressLocality: 'Montpellier',
+      addressRegion: 'Occitanie',
+      postalCode: '34070',
+      addressCountry: 'FR'
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 43.6108,
+      longitude: 3.8767
+    },
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
+      ],
+      opens: '00:00',
+      closes: '23:59'
+    },
+    priceRange: '€€',
+    areaServed: {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: 43.6108,
+        longitude: 3.8767
+      },
+      geoRadius: '200000'
+    },
+    sameAs: [
+      'https://www.lrdetectives.com'
+    ]
+  }
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <HeroSection />
+      <ReassuranceSection />
+      <ServicesSection />
+      <ApproachSection />
+      <ZoneSection />
+      <CTASection />
+    </>
+  )
 }
