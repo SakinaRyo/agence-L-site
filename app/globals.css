@@ -112,3 +112,22 @@ input[type="tel"],
 textarea {
   cursor: text !important;
 }
+/* Permettre la sélection UNIQUEMENT pour les infos importantes */
+.selectable,
+[data-selectable="true"] {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+  cursor: text !important;
+}
+
+/* Spécifiquement pour les liens email/tel (pratique) */
+a[href^="mailto:"],
+a[href^="tel:"] {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+  cursor: pointer !important;
+}

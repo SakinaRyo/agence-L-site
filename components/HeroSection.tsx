@@ -197,9 +197,8 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
         >
-          OBTENIR DES RÉPONSES.
+           La vérité pour votre liberté...
           <br />
-          REPRENDRE LE CONTRÔLE.
         </motion.h2>
 
         {/* Sous-titre */}

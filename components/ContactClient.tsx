@@ -38,6 +38,9 @@ export default function ContactClient() {
     message: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -45,10 +48,51 @@ export default function ContactClient() {
     });
   };
 
-  const handleSubmit = () => {
-    // TODO: Implémenter l'envoi avec EmailJS ou Formspree
-    console.log('Formulaire soumis:', formData);
-    alert('Formulaire prêt à être connecté à EmailJS ou Formspree');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    // ✅ Configuration Google Form
+    const GOOGLE_FORM_ID = '1FAIpQLSed-0solCo_KkVepg-FJKEgQUV2nFd47IW1ZqxKMOH0doTiiQ';
+    const ENTRY_NAME = 'entry.951871126';
+    const ENTRY_EMAIL = 'entry.1132310014';
+    const ENTRY_PHONE = 'entry.1814492819';
+    const ENTRY_MESSAGE = 'entry.421732997';
+
+    const formURL = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
+
+    const formBody = new URLSearchParams({
+      [ENTRY_NAME]: formData.nom,
+      [ENTRY_EMAIL]: formData.email,
+      [ENTRY_PHONE]: formData.telephone,
+      [ENTRY_MESSAGE]: formData.message,
+    });
+
+    try {
+      await fetch(formURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formBody.toString(),
+      });
+
+      setSubmitStatus('success');
+      console.log('✅ Formulaire envoyé avec succès - submitStatus défini à "success"');
+      setFormData({ nom: '', email: '', telephone: '', message: '' });
+      
+      // Auto-dismiss après 8 secondes
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 8000);
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const coordonnees = [
@@ -109,7 +153,88 @@ export default function ContactClient() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      
+      {/* Message de confirmation global - POSITION FIXED */}
+      {submitStatus === 'success' && (
+        <div 
+          className="fixed top-0 left-0 right-0 bg-green-50 border-b-4 border-green-500 shadow-2xl"
+          style={{
+            zIndex: 9999,
+            animation: 'slideDown 0.3s ease-out'
+          }}
+        >
+          <style>{`
+            @keyframes slideDown {
+              from { opacity: 0; transform: translateY(-20px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+          `}</style>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <button
+              onClick={() => setSubmitStatus('idle')}
+              className="absolute top-4 right-4 text-green-700 hover:text-green-900 transition-colors z-10"
+              aria-label="Fermer le message"
+              title="Fermer"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="flex items-center gap-3 text-green-800">
+              <svg className="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <p className="font-[family-name:var(--font-playfair)] text-lg font-semibold">
+                  Message envoyé avec succès !
+                </p>
+                <p className="font-[family-name:var(--font-lato)] text-sm">
+                  Nous vous recontacterons dans les plus brefs délais.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {submitStatus === 'error' && (
+        <div 
+          className="fixed top-0 left-0 right-0 bg-red-50 border-b-4 border-red-500 shadow-2xl"
+          style={{
+            zIndex: 9999,
+            animation: 'slideDown 0.3s ease-out'
+          }}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <button
+              onClick={() => setSubmitStatus('idle')}
+              className="absolute top-4 right-4 text-red-700 hover:text-red-900 transition-colors z-10"
+              aria-label="Fermer le message"
+              title="Fermer"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="flex items-center gap-3 text-red-800">
+              <svg className="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <p className="font-[family-name:var(--font-playfair)] text-lg font-semibold">
+                  Erreur lors de l'envoi
+                </p>
+                <p className="font-[family-name:var(--font-lato)] text-sm">
+                  Veuillez réessayer ou nous appeler au 06 50 01 27 47
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className="min-h-screen bg-[var(--color-beige)]">
+
         {/* Hero Section */}
         <section className="py-20 text-center">
           <div className="container-custom">
@@ -132,7 +257,7 @@ export default function ContactClient() {
                 <h2 className="font-[family-name:var(--font-playfair)] text-[var(--color-bleu-nuit)] text-3xl mb-8">
                   Envoyez-nous un message
                 </h2>
-                <div className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="block font-[family-name:var(--font-lato)] text-[var(--color-gris-doux)] text-sm mb-2">
                       Votre nom *
@@ -146,6 +271,7 @@ export default function ContactClient() {
                       placeholder="Jean Dupont"
                       required
                       aria-label="Votre nom"
+                      disabled={isSubmitting}
                     />
                   </div>
                   
@@ -162,6 +288,7 @@ export default function ContactClient() {
                       placeholder="jean.dupont@email.com"
                       required
                       aria-label="Votre email"
+                      disabled={isSubmitting}
                     />
                   </div>
                   
@@ -177,6 +304,7 @@ export default function ContactClient() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-[var(--color-bronze)] font-[family-name:var(--font-lato)]"
                       placeholder="06 00 00 00 00"
                       aria-label="Votre téléphone"
+                      disabled={isSubmitting}
                     />
                   </div>
                   
@@ -193,21 +321,33 @@ export default function ContactClient() {
                       placeholder="Décrivez votre situation en toute confidentialité..."
                       required
                       aria-label="Votre message"
+                      disabled={isSubmitting}
                     ></textarea>
                   </div>
                   
                   <button
-                    onClick={handleSubmit}
-                    className="w-full bg-[var(--color-bronze)] text-[var(--color-beige)] py-4 text-sm uppercase tracking-wider font-bold hover:bg-[var(--color-bronze-light)] transition-all duration-300 cursor-pointer"
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-[var(--color-bronze)] text-[var(--color-beige)] py-4 text-sm uppercase tracking-wider font-bold hover:bg-[var(--color-bronze-light)] transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     aria-label="Envoyer le message"
                   >
-                    Envoyer le message
+                    {isSubmitting ? (
+                      <span className="flex items-center justify-center gap-3">
+                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Envoi en cours...
+                      </span>
+                    ) : (
+                      'Envoyer le message'
+                    )}
                   </button>
                   
                   <p className="font-[family-name:var(--font-lato)] text-[var(--color-gris-doux)] text-xs text-center">
                     * Champs obligatoires. Vos données sont protégées conformément au RGPD.
                   </p>
-                </div>
+                </form>
               </div>
               
               {/* Coordonnées */}

@@ -1,6 +1,7 @@
 // app/page.tsx
 import { Metadata } from 'next'
 import HeroSection from '@/components/HeroSection'
+import TrustBanner from '@/components/TrustBanner'
 import ReassuranceSection from '@/components/ReassuranceSection'
 import ServicesSection from '@/components/ServicesSection'
 import ApproachSection from '@/components/ApproachSection'
@@ -108,6 +109,10 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <HeroSection />
+      
+      {/* Bandeau de confiance avec agréments CNAPS et certifications */}
+      <TrustBanner />
+      
       <ReassuranceSection />
       <ServicesSection />
       <ApproachSection />
